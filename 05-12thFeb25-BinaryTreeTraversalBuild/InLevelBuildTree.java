@@ -62,9 +62,7 @@ public class InLevelBuildTree {
         }
         int idx = findMinIndex(inorder, levelorder, instart, inend, levelmap);
         Node root = new Node(inorder[idx]);
-        if (instart == inend) {
-            return root;
-        }
+        
         root.left = helper(inorder, levelorder, instart, idx - 1, levelmap);
         root.right = helper(inorder, levelorder, idx + 1, inend, levelmap);
         return root;
