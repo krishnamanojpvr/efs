@@ -16,7 +16,6 @@
 // -------------
 // An integer, the highest volatility.
 
-
 // Sample Input-1:
 // ---------------
 // 5 2 3
@@ -49,46 +48,67 @@
 // ------------
 // All possible sequences have no volatility as the maximum and minimum values 
 // are the same, resulting in a difference of 0.
- 
+
 import java.util.*;
 
-public class VolatalityAnalyzer{
-    public static int getHighestVolatility(int[] arr, int n, int l, int r){
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
-        int left = 0;
-        int right = 0;
+public class VolatalityAnalyzer {
+    // public static int getHighestVolatility(int[] arr, int n, int l, int r){
+    // PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+    // PriorityQueue<Integer> maxHeap = new
+    // PriorityQueue<>(Collections.reverseOrder());
+    // int left = 0;
+    // int right = 0;
+    // int maxVolatile = 0;
+    // while(right < n){
+    // minHeap.add(arr[right]);
+    // maxHeap.add(arr[right]);
+    // while(right-left+1 > r){
+    // if(!minHeap.isEmpty() && minHeap.peek()==arr[left]){
+    // minHeap.poll();
+    // }
+    // if(!maxHeap.isEmpty() && maxHeap.peek()==arr[left]){
+    // maxHeap.poll();
+    // }
+    // left++;
+    // }
+    // if(!minHeap.isEmpty() && !maxHeap.isEmpty() && (right-left+1)>=l &&
+    // (right-left+1)<=r){
+    // maxVolatile = Math.max(maxHeap.peek()-minHeap.peek(),maxVolatile);
+    // }
+    // right++;
+    // }
+    // return maxVolatile;
+
+    // }
+
+    public static int getHighestVolatility(int[] arr, int n, int l, int r) {
+        TreeMap<Integer, Integer> tm = new TreeMap<>();
         int maxVolatile = 0;
-        while(right < n){
-            minHeap.add(arr[right]);
-            maxHeap.add(arr[right]);
-            while(right-left+1 > r){
-                if(!minHeap.isEmpty() && minHeap.peek()==arr[left]){
-                    minHeap.poll();
-                }
-                if(!maxHeap.isEmpty() && maxHeap.peek()==arr[left]){
-                    maxHeap.poll();
-                }
+        int left = 0;
+        for (int right = 0; right < n; right++) {
+            tm.put(arr[right], tm.getOrDefault(arr[right], 0) + 1);
+            if (right - left + 1 == r) {
+                maxVolatile = Math.max(tm.lastKey() - tm.firstKey(), maxVolatile);
+                tm.put(left, tm.get(left) - 1);
+                if (tm.get(left) == 0)
+                    tm.remove(left);
                 left++;
             }
-            if(!minHeap.isEmpty() && !maxHeap.isEmpty() && (right-left+1)>=l && (right-left+1)<=r){
-                maxVolatile = Math.max(maxHeap.peek()-minHeap.peek(),maxVolatile);
-            }
-            right++;
         }
         return maxVolatile;
-        
+
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int l = sc.nextInt();
         int r = sc.nextInt();
         int[] arr = new int[n];
-        for(int i = 0;i<n;i++){
+        for (int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
         }
-        System.out.println(getHighestVolatility(arr,n,l,r));
+        System.out.println(getHighestVolatility(arr, n, l, r));
         sc.close();
     }
 }
