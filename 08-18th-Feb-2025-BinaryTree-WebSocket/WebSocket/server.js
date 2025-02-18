@@ -15,7 +15,7 @@ server.on("connection", (socket) => {
         Salary: data[2],
       });
       socket.send("Employee inserted successfully.");
-    } else if (data[0] == "RETRIEVE" && data.length==1) {
+    } else if (data[0] == "RETRIEVE" && data.length == 1) {
       database.forEach((element) => {
         socket.send(
           `ID:${element.ID}, Name: ${element.Name}, Salary: ${element.Salary}`
