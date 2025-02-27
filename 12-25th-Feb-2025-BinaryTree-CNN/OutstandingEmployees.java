@@ -43,6 +43,7 @@
 //   managers have higher scores.
 
 import java.util.*;
+
 class Node {
     int data;
     Node left;
@@ -55,53 +56,56 @@ class Node {
     }
 }
 
-public class OutstandingEmployees{
+public class OutstandingEmployees {
     static int res = 0;
-    public static void helper(Node root,int val){
-        if(root==null) return;
-        if(root.data>=val){
+
+    public static void helper(Node root, int val) {
+        if (root == null)
+            return;
+        if (root.data >= val) {
             val = root.data;
             res++;
         }
-        helper(root.left,val);
-        helper(root.right,val);
+        helper(root.left, val);
+        helper(root.right, val);
     }
-    public static int outstanding(Node root){
-        if(root==null) return 0;
+
+    public static int outstanding(Node root) {
+        if (root == null)
+            return 0;
         res++;
-        helper(root.left,root.data);
-        helper(root.right,root.data);
+        helper(root.left, root.data);
+        helper(root.right, root.data);
         return res;
     }
-    public static Node insert(int[] arr)
-    { 
-       int n = arr.length;
-       Node root = new Node(arr[0]);
-       Queue<Node> q = new LinkedList<>();
-       q.offer(root);
-       int ind =1;
-       while(ind<n && !q.isEmpty()){
-           Node temp = q.poll();
-           if(arr[ind]!=-1){
-               temp.left = new Node(arr[ind]);
-               q.add(temp.left);
-           }
-           ind++;
-           if(ind<n && arr[ind]!=-1){
-               temp.right = new Node(arr[ind]);
-               q.add(temp.right);
-           }
-           ind++;
-       }
-       return root;
-    }
-    public static void main(String args[])
-	{
-		Scanner sc=new Scanner(System.in);
-		int arr[] = Arrays.stream(sc.nextLine().split(" ")).mapToInt(Integer::valueOf).toArray();
-		Node root = insert(arr);
-		System.out.print(outstanding(root));
-        sc.close();
-	}
-}
 
+    public static Node insert(int[] arr) {
+        int n = arr.length;
+        Node root = new Node(arr[0]);
+        Queue<Node> q = new LinkedList<>();
+        q.offer(root);
+        int ind = 1;
+        while (ind < n && !q.isEmpty()) {
+            Node temp = q.poll();
+            if (arr[ind] != -1) {
+                temp.left = new Node(arr[ind]);
+                q.add(temp.left);
+            }
+            ind++;
+            if (ind < n && arr[ind] != -1) {
+                temp.right = new Node(arr[ind]);
+                q.add(temp.right);
+            }
+            ind++;
+        }
+        return root;
+    }
+
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int arr[] = Arrays.stream(sc.nextLine().split(" ")).mapToInt(Integer::valueOf).toArray();
+        Node root = insert(arr);
+        System.out.print(outstanding(root));
+        sc.close();
+    }
+}
