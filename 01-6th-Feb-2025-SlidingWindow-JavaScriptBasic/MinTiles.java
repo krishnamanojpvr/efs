@@ -61,26 +61,20 @@ import java.util.*;
 
 public class MinTiles {
     public static int getMinTiles(String s, int size) {
-        int count = 0;
-        int minTiles = Integer.MAX_VALUE;
-        for (int i = 0; i < size; i++) {
-            if (s.charAt(i) == 'R') {
-                count++;
+        int min = Integer.MAX_VALUE;
+        int c = 0;
+        int l = 0;
+        for(int r=0;r<s.length();r++){
+            if(s.charAt(r)=='W') c++;
+            if(r-l+1==size){
+                min = Math.min(min,c);
+                if(s.charAt(l)=='W'){
+                    c--;
+                }
+                l++;
             }
         }
-        minTiles = Math.min(count, minTiles);
-        for (int i = size; i < s.length(); i++) {
-            if (s.charAt(i) == 'B' && s.charAt(i - size) == 'R') {
-                count--;
-            } else if (s.charAt(i) == 'R' && s.charAt(i - size) == 'B') {
-                count++;
-            }
-            minTiles = Math.min(minTiles, count);
-        }
-        if (minTiles == Integer.MAX_VALUE) {
-            return 0;
-        }
-        return minTiles;
+        return min;
     }
 
     public static void main(String[] args) {
