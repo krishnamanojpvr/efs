@@ -58,24 +58,35 @@
 // - 1 <= instructions.length <= 2 * 10^4
 // - 0 <= instruction <= 255
 
-
 import java.util.*;
-public class HighTechRobot{
-    public static boolean check(int[] arr){
-        int b = 0;
-        if((arr[0]>>7) == 0) b=1;
-        else if(arr[0]>>5==6) b=2;
-        else if(arr[0]>>4==14) b=3;
-        else if(arr[0]>>3==30) b=4;
-        else return false;
-        if(arr.length<b) return false;
-        for(int i=1;i<b;i++){
-            if(arr[i]>>6!=2) return false;
+
+public class HighTechRobot {
+    public static boolean check(int[] arr) {
+        int i = 0, n = arr.length;
+        while (i < n) {
+            int b = 0;
+            if ((arr[i] >> 7) == 0)
+                b = 1;
+            else if (arr[i] >> 5 == 6)
+                b = 2;
+            else if (arr[i] >> 4 == 14)
+                b = 3;
+            else if (arr[i] >> 3 == 30)
+                b = 4;
+            else
+                return false;
+            if (i + b > n)
+                return false;
+            for (int j = 1; j < b; j++) {
+                if (arr[i + j] >> 6 != 2)
+                    return false;
+            }
+            i += b;
         }
         return true;
-                
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int arr[] = Arrays.stream(sc.nextLine().split(" ")).mapToInt(Integer::valueOf).toArray();
         System.out.println(check(arr));
