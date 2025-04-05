@@ -94,6 +94,19 @@ class Treap {
         inorder(root.right);
     }
 
+    public void kthLargest(TreapNode root, int[] k) {
+        if (root == null)
+            return;
+        // reverse inorder traversal -right,root,left - for descending order
+        kthLargest(root.right, k);
+        k[0]--;
+        if (k[0] == 0) {
+            System.out.println(root.key);
+            return;
+        }
+
+        kthLargest(root.left, k);
+    }
 }
 
 public class TreapProgram {
@@ -123,6 +136,9 @@ public class TreapProgram {
         int del = sc.nextInt();
         treap.root = treap.delete(treap.root, del);
         treap.inorder(treap.root);
+        System.out.println("----------------------------");
+        int k = sc.nextInt();
+        treap.kthLargest(treap.root, new int[] { k });
         sc.close();
     }
 }
