@@ -22,7 +22,6 @@
 // --------------
 // Print the BBC representation of I.
 
-
 // Sample Input-1:
 // ---------------
 // 23
@@ -30,7 +29,6 @@
 // Sample Output-1:
 // ----------------
 // 1000
-
 
 // Sample Input-2:
 // ---------------
@@ -40,25 +38,34 @@
 // ----------------
 // 01110
 
-
 import java.util.*;
-public class EncodeNumber{
-    public static void main(String args[]){
+
+public class EncodeNumber {
+    public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        String s = Integer.toBinaryString(n+1).substring(1);
+        String s = Integer.toBinaryString(n + 1).substring(1);
         System.out.println(s);
         sc.close();
     }
 
-    public static String anotherWay(int n){
+    public static String anotherWay(int n) {
         StringBuilder sb = new StringBuilder();
-        while(n>0){
-            sb.append(n%2==0?"1":"0");
-            n=(n-1)/2;
+        while (n > 0) {
+            sb.append(n % 2 == 0 ? "1" : "0");
+            n = (n - 1) / 2;
         }
         return sb.reverse().toString();
     }
 
+    public static String anotherAnotherWay(int n) {
+        StringBuilder sb = new StringBuilder();
+        n++;// * Work with num + 1
+        while (n > 1) {// * Stop when num becomes 1 (leading '1' is ignored)
+            sb.append(n & 1);
+            n >>= 1;
+        }
+        return sb.reverse().toString();
+    }
 
 }
