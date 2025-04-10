@@ -15,91 +15,106 @@ Constraints:
 import java.util.*;
 
 class TreapNode {
-    int value, priority, size;
-    TreapNode left, right;
+  long key;
+  int priority, size;
+  TreapNode left, right;
 
-    TreapNode(int value) {
-        this.value = value;
-        this.priority = new Random().nextInt();
-        this.size = 1;
-    }
+  TreapNode(long key) {
+    this.key = key;
+    this.priority = new Random().nextInt();
+    this.size = 1;
+  }
+}
 
-    void updateSize() {
-        this.size = 1 + getSize(left) + getSize(right);
-    }
+class Treap {
+  TreapNode root;
 
-    static int getSize(TreapNode node) {
-        return node == null ? 0 : node.size;
+  int size(TreapNode node) {
+    return node == null ? 0 : node.size;
+  }
+
+  void updateSize(TreapNode node) {
+    if (node != null) {
+      node.size = 1 + size(node.left) + size(node.right);
     }
+  }
+
+  TreapNode rotateRight(TreapNode y) {
+    TreapNode x = y.left;
+    TreapNode T2 = x.right;
+    x.right = y;
+    y.left = T2;
+    updateSize(y);
+    updateSize(x);
+    return x;
+  }
+
+  TreapNode rotateLeft(TreapNode x) {
+    TreapNode y = x.right;
+    TreapNode T2 = y.left;
+    y.left = x;
+    x.right = T2;
+    updateSize(x);
+    updateSize(y);
+    return y;
+  }
+
+  TreapNode insert(TreapNode node, long key) {
+    if (node == null)
+      return new TreapNode(key);
+    if (key <= node.key) {
+      node.left = insert(node.left, key);
+      if (node.left.priority < node.priority) {
+        node = rotateRight(node);
+      }
+    } else {
+      node.right = insert(node.right, key);
+      if (node.right.priority < node.priority) {
+        node = rotateLeft(node);
+      }
+    }
+    updateSize(node);
+    return node;
+  }
+
+  void insert(long key) {
+    root = insert(root, key);
+  }
+
+  int countLessThan(TreapNode node, long val) {
+    if (node == null)
+      return 0;
+    if (val <= node.key) {
+      return countLessThan(node.left, val);
+    } else {
+      return 1 + countLessThan(node.right, val) + size(node.left);
+    }
+  }
+
+  int countLessThan(long val) {
+    return countLessThan(root, val);
+  }
 }
 
 public class Exp_1e {
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int nums[] = new int[n];
-        for (int i = 0; i < n; i++) {
-            nums[i] = sc.nextInt();
-        }
-        System.out.println(reversePairs(nums));
-        sc.close();
+  public static int reversePairs(int[] nums) {
+    Treap t = new Treap();
+    int cnt = 0;
+    for (int i = nums.length - 1; i >= 0; i--) {
+      cnt += t.countLessThan((long) nums[i]);
+      t.insert(2L * nums[i]);
     }
+    return cnt;
+  }
 
-    static int reversePairs(int[] nums) {
-        TreapNode root = null;
-        int count = 0;
-
-        for (int i = nums.length - 1; i >= 0; i--) {
-            count += countLessThan(root, nums[i] / 2.0);
-            root = insert(root, nums[i]);
-        }
-        return count;
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    int nums[] = new int[n];
+    for (int i = 0; i < n; i++) {
+      nums[i] = sc.nextInt();
     }
-
-    static int countLessThan(TreapNode node, double target) {
-        if (node == null)
-            return 0;
-        if (node.value < target) {
-            return TreapNode.getSize(node.left) + 1 + countLessThan(node.right, target);
-        } else {
-            return countLessThan(node.left, target);
-        }
-    }
-
-    static TreapNode insert(TreapNode root, int value) {
-        if (root == null)
-            return new TreapNode(value);
-        if (value < root.value) {
-            root.left = insert(root.left, value);
-            if (root.left.priority > root.priority) {
-                root = rotateRight(root);
-            }
-        } else {
-            root.right = insert(root.right, value);
-            if (root.right.priority > root.priority) {
-                root = rotateLeft(root);
-            }
-        }
-        root.updateSize();
-        return root;
-    }
-
-    static TreapNode rotateRight(TreapNode root) {
-        TreapNode newRoot = root.left;
-        root.left = newRoot.right;
-        newRoot.right = root;
-        root.updateSize();
-        newRoot.updateSize();
-        return newRoot;
-    }
-
-    static TreapNode rotateLeft(TreapNode root) {
-        TreapNode newRoot = root.right;
-        root.right = newRoot.left;
-        newRoot.left = root;
-        root.updateSize();
-        newRoot.updateSize();
-        return newRoot;
-    }
+    System.out.println(reversePairs(nums));
+    sc.close();
+  }
 }
