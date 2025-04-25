@@ -62,7 +62,8 @@ class TrieNode {
 
 class Trie {
     TrieNode root;
-    Trie(){
+
+    Trie() {
         root = new TrieNode();
     }
 
@@ -86,6 +87,7 @@ public class TrieSuffixes {
     public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
         String s[] = sc.nextLine().split(" ");
+        Arrays.sort(s, (a, b) -> b.length() - a.length());
         Trie t = new Trie();
         int count = 0;
         for (String st : s) {
