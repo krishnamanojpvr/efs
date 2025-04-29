@@ -1,0 +1,81 @@
+.gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .gallery-container h1 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .gallery-container p {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #666;
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .gallery-item {
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    aspect-ratio: 4/3;
+  }
+  
+  .gallery-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .zoom-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 20px;
+    z-index: 1001;
+  }
+  
+  .zoom-controls button {
+    padding: 5px 10px;
+    background: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .zoom-controls span {
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+  }
+  
+  /* Customize the lightbox */
+  .yarl__root {
+    --yarl__color_backdrop: rgba(0, 0, 0, 0.9);
+  }
+  
+  .yarl__slide_image {
+    transform: scale(var(--zoom-level, 1));
+    transition: transform 0.3s ease;
+  }

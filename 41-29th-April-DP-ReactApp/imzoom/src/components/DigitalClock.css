@@ -1,0 +1,92 @@
+.clock-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .current-time, .interval-display {
+    margin: 20px 0;
+  }
+  
+  .time-display {
+    font-size: 2.5rem;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    color: #333;
+    background-color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 10px 0;
+  }
+  
+  .interval-controls {
+    margin: 30px 0;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .input-group input {
+    width: 100px;
+    padding: 8px;
+    font-size: 1rem;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .button-group button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .button-group button:first-child {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .button-group button:first-child:hover {
+    background-color: #45a049;
+  }
+  
+  .button-group button:last-child {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .button-group button:last-child:hover {
+    background-color: #d32f2f;
+  }
+  
+  .button-group button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .alert {
+    color: #d32f2f;
+    font-weight: bold;
+    margin-top: 20px;
+  }
