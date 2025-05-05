@@ -18,5 +18,19 @@
 // */
 
 printjson(
-
-)
+  db.billing.aggregate([
+    {
+      $group: {
+        _id: "$insuranceCovered",
+        totalRevenue: { $sum: "$totalAmount" },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        insuranceCovered: "$_id",
+        totalRevenue: 1,
+      },
+    },
+  ])
+);

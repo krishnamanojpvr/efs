@@ -54,7 +54,7 @@ start at cell(0,0) =>  8→6→6→2→1→9→2 minimizes the loss of health po
 
  import java.util.*;
 
- public class MinHealthPoints{
+ public class MinPathSum{
      public static int getMinHealthPoints(int[][] grid, int m, int n){
          int[][] dp = new int[m][n];
          dp[0][0] = grid[0][0];

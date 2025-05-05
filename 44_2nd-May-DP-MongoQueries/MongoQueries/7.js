@@ -33,9 +33,35 @@ printjson() : JS library function to display the JSON Object data.
     In db.<collection>.find()/aggregate():
     	db -> Refers to the database.
     	<collection> -> Your collection name
-
+	
 */
 
 printjson(
-
-)
+  db.medicines.aggregate([
+    {
+      $lookup: {
+        from: "prescriptions",
+        localField: "medicineId",
+        foreignField: "medicines.medicineId",
+        as: "medicines",
+      },
+    },
+    {
+      $addFields: {
+        usageCount: { $size: "$medicines" },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        medicineId: 1,
+        name: 1,
+        stockLevel: 1,
+        usageCount: 1,
+      },
+    },
+    {
+      $sort: { usageCount: -1, stockLevel: 1 },
+    },
+  ])
+);
