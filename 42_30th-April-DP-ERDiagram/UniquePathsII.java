@@ -76,5 +76,6 @@ public class UniquePathsII{
             }
         }
         System.out.println(dp[m-1][n-1]);
+        sc.close();
     }
 }

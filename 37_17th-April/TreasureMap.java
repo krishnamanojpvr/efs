@@ -1,4 +1,4 @@
-// public In a forgotten realm, explorers often find ancient treasure maps written as 
+// In a forgotten realm, explorers often find ancient treasure maps written as 
 // long strings of mysterious characters with no spaces. Luckily, they also carry 
 // an ancient wordbook (pathBook) containing all the known names of places, 
 // landmarks, and directions.
@@ -49,6 +49,7 @@
 // - 1 <= pathBook[i].length <= 10
 // - All strings consist of lowercase English letters.
 // - All entries in pathBook are unique.
-// - Input is structured so the total number of valid decoded strings does not exceed 10^5. TreasureMap {
-    
-// }
+// - Input is structured so the total number of valid decoded strings does not exceed 10^5.
+
+
+

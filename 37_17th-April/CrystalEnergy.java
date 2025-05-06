@@ -30,3 +30,30 @@
 // Constraints:
 // - 1 <= n <= 10^4
 // - Only shards with energy between 2 and n - 1 can be used.
+
+
+import java.util.List;
+import java.util.*;
+public class CrystalEnergy{
+    public static void backtrack(List<List<Integer>> res, ArrayList<Integer> temp, int n,int s){
+        if(n==1){
+            if(temp.size()>1) res.add(new ArrayList<>(temp));
+            return;
+        }
+        for(int i = s;i<=n;i++){
+            if(n%i==0){
+                temp.add(i);
+                backtrack(res, temp, n/i,i);
+                temp.remove(temp.size()-1);
+            }
+        }
+    }
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        List<List<Integer>> res = new ArrayList<>();
+        backtrack(res,new ArrayList<Integer>(),n,2);
+        System.out.println(res);
+        sc.close();
+    }
+}
