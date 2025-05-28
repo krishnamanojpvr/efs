@@ -55,36 +55,32 @@
 // 7
 
 import java.util.*;
-
 public class FindMaxHeight{
-    public static int getMaxHeight(int[][] arr, int n, int w){
-        int res = 0;
-        int width = 0;
-        int height = Integer.MIN_VALUE;
-        for(int i[] : arr){
-            if(width+i[0] <= w){
-                height = Math.max(height,i[1]);
-                width += i[0];
-            }
-            else{
-                res += height;
-                width = i[0];
-                height = i[1];
-            }
-        }
-        res += height;
-        return res;
-    }
-    public static void main(String[] args){
+    public static void main(String args[]){
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int w = sc.nextInt();
-        int[][] arr = new int[n][2];
-        for(int i = 0;i<n;i++){
+        int arr[][] = new int[n][2];
+        for(int i=0;i<n;i++){
             arr[i][0] = sc.nextInt();
             arr[i][1] = sc.nextInt();
         }
-        System.out.println(getMaxHeight(arr,n,w));
+        
+        int memo[][] = new int[n][w+1];
+        for(int i[] : memo){
+            Arrays.fill(i,-1);
+        }
+        System.out.println(helper(arr,memo,n,w,w,0,0));
         sc.close();
+        
+    }
+    public static int helper(int arr[][],int memo[][], int n,int maxw,int remw,int maxh,int i){
+        if(i==arr.length) return maxh;
+        if(memo[i][remw]!=-1) return memo[i][remw];
+        
+        int nextrow = maxh + helper(arr,memo,n,maxw,maxw-arr[i][0],arr[i][1],i+1);
+        int currrow = Integer.MAX_VALUE;
+        if(remw>=arr[i][0]) currrow = helper(arr,memo,n,maxw,remw-arr[i][0],Math.max(maxh,arr[i][1]),i+1);
+        return memo[i][remw] = Math.min(nextrow,currrow);
     }
 }
