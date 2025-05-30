@@ -46,9 +46,34 @@ Explanation:
 import java.util.*;
 
 public class CountingBits {
+    /*
+     * More Optimized O(n)
+     * 1. Use a DP array (dp[]):
+     *  Let dp[i] store the count of 1s in the binary representation of i.
+     *  Initialize dp[0] = 0 since 0 has no 1s.
+     * 2. Use a Recurrence Relation:
+     *  Every number i can be expressed as i = i/2 + (i % 2):
+     *  i / 2 is the right-shifted version of i (removing the last bit).
+     *  (i % 2) is 1 if i is odd, 0 if even.
+     *  This leads to the relation: dp[i]=dp[i/2]+(i%2)
+     *  Since i/2 is already computed, we can fetch its result in O(1) time.
+     * 3. Iterate from 1 to n and compute dp[i] using the formula.
+     *  This ensures an O(n) time complexity.
+     */
+
+    public static int[] countBits(int n) {
+        int[] dp = new int[n + 1];
+        dp[0] = 0;
+        for (int i = 1; i <= n; i++) {
+            dp[i] = dp[i >> 1] + (i & 1);
+            // dp[i] = dp[i / 2] + (i % 2);
+        }
+        return dp;
+    }
+
+    // * Less Optimized
     // * Brian Kernighan's Algorithm to find number of set bits in O(k) where k is
     // number of set bits
-    // * Optimized
     private static int hammingWeightBrian(int n) {
         int count = 0;
         while (n > 0) {
@@ -77,31 +102,6 @@ public class CountingBits {
         }
 
         return bin;
-    }
-
-    /*
-     * More Optimized O(n)
-     * 1. Use a DP array (dp[]):
-     *  Let dp[i] store the count of 1s in the binary representation of i.
-     *  Initialize dp[0] = 0 since 0 has no 1s.
-     * 2. Use a Recurrence Relation:
-     *  Every number i can be expressed as i = i/2 + (i % 2):
-     *  i / 2 is the right-shifted version of i (removing the last bit).
-     *  (i % 2) is 1 if i is odd, 0 if even.
-     *  This leads to the relation: dp[i]=dp[i/2]+(i%2)
-     *  Since i/2 is already computed, we can fetch its result in O(1) time.
-     * 3. Iterate from 1 to n and compute dp[i] using the formula.
-     *  This ensures an O(n) time complexity.
-     */
-
-    public static int[] countBits(int n) {
-        int[] dp = new int[n + 1];
-        dp[0] = 0;
-        for (int i = 1; i <= n; i++) {
-            dp[i] = dp[i >> 1] + (i & 1);
-            // dp[i] = dp[i / 2] + (i % 2);
-        }
-        return dp;
     }
 
     public static void main(String[] args) {

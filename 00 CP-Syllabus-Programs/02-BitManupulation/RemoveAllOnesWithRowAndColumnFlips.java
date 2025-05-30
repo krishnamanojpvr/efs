@@ -46,36 +46,29 @@
 // ---------------
 // false
 
-//*Intuition : All rows are identical or any row is opposite of rest */
-
-//*Flip rows if starting of every row in 1 */
-//*Flip columns if starting of every column in 1 */
-//*If we find any '1' after the flipping, return false */
-//*otherwise return true */
-
 import java.util.*;
 
 public class RemoveAllOnesWithRowAndColumnFlips {
-    public static boolean flip(int[][] arr, int n, int m) {
-        for (int i = 0; i < n; i++) {
-            if (arr[i][0] == 1) {
-                for (int j = 0; j < m; j++) {
-                    arr[i][j] = 1 - arr[i][j];
+
+    public static boolean removeOnes(int[][] grid) {
+        int row = grid.length; // get dimensions of grid
+        int col = grid[0].length;
+
+        for (int c = 0; c < col; c++) { // flip columns so that first row only has 0's
+            if (grid[0][c] == 1) {
+                for (int r = 0; r < row; r++) { // flips a column
+                    grid[r][c] ^= 1;
                 }
             }
         }
-        for (int i = 0; i < m; i++) {
-            if (arr[0][i] == 1) {
-                for (int j = 0; j < n; j++) {
-                    arr[j][i] = 1 - arr[j][i];
-                }
+
+        for (int r = 1; r < row; r++) { // checks if each row has all 0's or all 1's
+            int sum = 0;
+            for (int c = 0; c < col; c++) {
+                sum += grid[r][c];
             }
-        }
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (arr[i][j] == 1) {
-                    return false;
-                }
+            if (sum != 0 && sum != col) {
+                return false;
             }
 
         }
@@ -93,8 +86,40 @@ public class RemoveAllOnesWithRowAndColumnFlips {
             }
         }
 
-        System.out.println(flip(arr, n, m));
+        System.out.println(removeOnes(arr));
         sc.close();
 
     }
+
+    // *Intuition : All rows are identical or any row is opposite of rest */
+
+    // *Flip rows if starting of every row in 1 */
+    // *Flip columns if starting of every column in 1 */
+    // *If we find any '1' after the flipping, return false */
+    // *otherwise return true */
+    // public static boolean flip(int[][] arr, int n, int m) {
+    // for (int i = 0; i < n; i++) {
+    // if (arr[i][0] == 1) {
+    // for (int j = 0; j < m; j++) {
+    // arr[i][j] = 1 - arr[i][j];
+    // }
+    // }
+    // }
+    // for (int i = 0; i < m; i++) {
+    // if (arr[0][i] == 1) {
+    // for (int j = 0; j < n; j++) {
+    // arr[j][i] = 1 - arr[j][i];
+    // }
+    // }
+    // }
+    // for (int i = 0; i < n; i++) {
+    // for (int j = 0; j < m; j++) {
+    // if (arr[i][j] == 1) {
+    // return false;
+    // }
+    // }
+
+    // }
+    // return true;
+    // }
 }

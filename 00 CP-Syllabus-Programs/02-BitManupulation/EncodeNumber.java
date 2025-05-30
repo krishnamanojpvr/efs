@@ -48,17 +48,8 @@ public class EncodeNumber {
         System.out.println(s);
         sc.close();
     }
-
+    
     public static String anotherWay(int n) {
-        StringBuilder sb = new StringBuilder();
-        while (n > 0) {
-            sb.append(n % 2 == 0 ? "1" : "0");
-            n = (n - 1) / 2;
-        }
-        return sb.reverse().toString();
-    }
-
-    public static String anotherAnotherWay(int n) {
         StringBuilder sb = new StringBuilder();
         n++;// * Work with num + 1
         while (n > 1) {// * Stop when num becomes 1 (leading '1' is ignored)
@@ -67,5 +58,15 @@ public class EncodeNumber {
         }
         return sb.reverse().toString();
     }
+
+    public static String anotherAnotherWay(int n) {
+        StringBuilder sb = new StringBuilder();
+        while (n > 0) {
+            sb.append(n % 2 == 0 ? "1" : "0");
+            n = (n - 1) / 2;
+        }
+        return sb.reverse().toString();
+    }
+
 
 }
