@@ -75,10 +75,21 @@ public class CountMaxNumbers{
     }
     public static int getMaxPairs(int[] arr1, int[] arr2, int m, int n){
         int[][] dp = new int[m+1][n+1];
-        for(int[] i : dp){
-            Arrays.fill(i,-1);
+        // for(int[] i : dp){
+        //     Arrays.fill(i,-1);
+        // }
+        // return solve(dp,arr1,arr2,m,n,0,0);
+        for(int i=1;i<=m;i++){
+            for(int j=1;j<=n;j++){
+                if(arr1[i-1]==arr2[j-1]){
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                }
+                else{
+                    dp[i][j] = Math.max(dp[i][j-1],dp[i-1][j]);
+                }
+            }
         }
-        return solve(dp,arr1,arr2,m,n,0,0);
+        return dp[m][n];
     }
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
