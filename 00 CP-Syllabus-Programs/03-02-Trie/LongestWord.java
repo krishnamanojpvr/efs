@@ -204,6 +204,7 @@ public class LongestWord
             Scanner sc=new Scanner(System.in);
             String dict[]=sc.nextLine().split(" ");
             System.out.println(completeString(dict.length,dict));
+            sc.close();
         }
                   
 }

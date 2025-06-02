@@ -220,5 +220,6 @@ import java.util.*;
         // Verify deletion
         System.out.println("Searching for word after deletion:");
         System.out.println(trie.search(deleteWord) ? "Still exists" : "Successfully deleted");
+        sc.close();
     }
 }

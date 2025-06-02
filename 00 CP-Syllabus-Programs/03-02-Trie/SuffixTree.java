@@ -88,5 +88,6 @@ class SuffixTrie
 
 		char[] str = new char[50];
 		print(root, str, 0);
+		sc.close();
 	}	
 }

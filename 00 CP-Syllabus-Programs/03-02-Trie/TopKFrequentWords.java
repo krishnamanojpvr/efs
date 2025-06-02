@@ -188,7 +188,7 @@ class WordComparator implements Comparator<StringFrequency>
     }
 }
 
-public class FrequentWord
+public class TopKFrequentWords
  {
     public static List<String> topKFrequent(String[] words, int k)
      {
@@ -226,6 +226,8 @@ public class FrequentWord
         Scanner sc=new Scanner(System.in);
 		String dict[]=sc.nextLine().split(",");
         int k=sc.nextInt();
-		System.out.println(new FrequentWord().topKFrequent(dict,k));
+		new TopKFrequentWords();
+        System.out.println(TopKFrequentWords.topKFrequent(dict,k));
+        sc.close();
     }
 }
