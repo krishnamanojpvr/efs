@@ -49,7 +49,7 @@ Minimum number of semesters: 4
 */
 import java.util.*;
 
-public class Parallelcourses_II
+public class ParallelCourses_II
  {
 
     public int minNumberOfSemesters(int n, int[][] relations, int k)
@@ -107,7 +107,7 @@ public class Parallelcourses_II
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Parallelcourses_II courses = new Parallelcourses_II();
+        ParallelCourses_II courses = new ParallelCourses_II();
 
         // Read number of courses
         System.out.print("Enter number of courses (n): ");
@@ -131,5 +131,6 @@ public class Parallelcourses_II
 
         int result = courses.minNumberOfSemesters(n, relations, k);
         System.out.println("Minimum number of semesters: " + result);
+        sc.close();
     }
 }

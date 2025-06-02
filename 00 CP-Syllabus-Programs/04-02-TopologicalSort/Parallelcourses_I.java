@@ -93,7 +93,7 @@ output =8
 */
 import java.util.*;
 
-public class Parallelcourses 
+public class ParallelCourses_I
 {
 
     public int minimumSemesters(int N, int[][] relations) 
@@ -157,7 +157,7 @@ public class Parallelcourses
     public static void main(String[] args) 
     {
         Scanner sc = new Scanner(System.in);
-        Parallelcourses cs = new Parallelcourses();
+        ParallelCourses_I cs = new ParallelCourses_I();
 
         // Read number of courses
        

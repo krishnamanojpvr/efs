@@ -133,6 +133,6 @@ class CourseSchedule_II
         }
 
         System.out.println( cs.findOrder(numCourses, prerequisites));
-       
+        sc.close();
     }
 }

@@ -173,6 +173,7 @@ public class IndexPairs
 		String words[]=sc.nextLine().split(" ");
         IndexPairs solution = new IndexPairs();
 		printResult(solution.indexPairs(text,words));
+        sc.close();
     }
 
 		private static void printResult(List<int[]> pairs)

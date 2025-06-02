@@ -111,6 +111,7 @@ class ConnectedComponents
        
 		System.out.println("Following are connected components");
 		g.connectedComponents();
+		sc.close();
 	}
 }
 

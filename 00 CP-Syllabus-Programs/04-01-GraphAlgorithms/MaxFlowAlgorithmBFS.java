@@ -10,7 +10,7 @@ Max Flow Problem:(FORD FULKERSON ALGORITHM)
     that an connection can have or even at finding the maximum water capacity of 
     an water supply network!
 
-    This problem can be represented as an Graph again were each Edge has a maximum flow
+    This problem can be represented as an Graph again where each Edge has a maximum flow
     capacity or weight and we then try to find the maximum flow using an algorithm.
     I will use the Adjacency Matrix representation that we also used in the 
     Floyd Warshall algorithm, but I will change the initialization of the Edges
@@ -76,8 +76,7 @@ input=
 output=
 23
 */
-import java.io.*;
-import java.lang.*;
+
 import java.util.*;
 import java.util.LinkedList;
 
@@ -190,5 +189,6 @@ class Test {
 		int s = sc.nextInt();
 		int t = sc.nextInt();
 		System.out.println(new Test().fordFulkerson(graph, s, t));
+		sc.close();
 	}
 }

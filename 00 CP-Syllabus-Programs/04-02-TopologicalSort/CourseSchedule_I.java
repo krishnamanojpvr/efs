@@ -103,5 +103,6 @@ public class CourseSchedule_I
 
         boolean canFinish = cs.canFinish(numCourses, prerequisites);
         System.out.println(canFinish);
+        sc.close();
     }
 }

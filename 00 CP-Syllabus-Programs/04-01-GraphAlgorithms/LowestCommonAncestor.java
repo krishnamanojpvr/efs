@@ -99,7 +99,7 @@ output =6
 import java.util.*;
 
 
-public class  Test
+public class  LowestCommonAncestor
 {
     public static void main(String[] args) 
     {
@@ -125,7 +125,6 @@ public class  Test
         Node P2 = new Node(Integer.parseInt(persons[1]));
 
         Queue<Node> q = new LinkedList<>();
-        Queue<Node> q2 = new LinkedList<>();
         
         q.add(root);
         
@@ -152,6 +151,7 @@ public class  Test
 
         Node res=new Solution().lowestCommonAscendant(root, P1, P2);
         System.out.println(res.data);
+        sc.close();
   }
 }
 

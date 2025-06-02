@@ -1,3 +1,4 @@
+
 /* A Java program to find articulation points in an undirected graph
 
 Problem Statement: Given an undirected connected graph with V vertices and adjacency list adj. You are required to find all the vertices removing which (and edges through it) disconnect the graph into 2 or more components.
@@ -64,14 +65,13 @@ class Graph {
 
 	static int time;
 
-	static void addEdge(ArrayList<ArrayList<Integer> > adj, int u, int v)
-	{
+	static void addEdge(ArrayList<ArrayList<Integer>> adj, int u, int v) {
 		adj.get(u).add(v);
 		adj.get(v).add(u);
 	}
 
-	static void APUtil(ArrayList<ArrayList<Integer> > adj, int u,boolean visited[], int disc[], int low[],int parent, boolean isAP[])
-	{
+	static void APUtil(ArrayList<ArrayList<Integer>> adj, int disc[], int low[], boolean visited[], boolean isAP[],
+			int u, int parent) {
 		// Count of children in DFS Tree
 		int children = 0;
 
@@ -83,11 +83,12 @@ class Graph {
 
 		// Go through all vertices adjacent to this
 		for (Integer v : adj.get(u)) {
+			if(v==parent) continue;
 			// If v is not visited yet, then make it a child of u
 			// in DFS tree and recur for it
 			if (!visited[v]) {
 				children++;
-				APUtil(adj, v, visited, disc, low, u, isAP);
+				APUtil(adj,disc,low,visited,isAP,u,v);
 
 				// Check if the subtree rooted with v has
 				// a connection to one of the ancestors of u
@@ -109,18 +110,18 @@ class Graph {
 			isAP[u] = true;
 	}
 
-	static void AP(ArrayList<ArrayList<Integer> > adj, int V)
-	{
-		boolean[] visited = new boolean[V];
+	public static void AP(ArrayList<ArrayList<Integer>> adj, int V) {
+		boolean[] vis = new boolean[V];
 		int[] disc = new int[V];
 		int[] low = new int[V];
 		boolean[] isAP = new boolean[V];
-		int time = 0, par = -1;
+		int parent = -1;
 
-		// Adding this loop so that thecode works even if we are given disconnected graph
+		// Adding this loop so that thecode works even if we are given disconnected
+		// graph
 		for (int u = 0; u < V; u++)
-			if (visited[u] == false)
-				APUtil(adj, u, visited, disc, low, par, isAP);
+			if (vis[u] == false)
+				APUtil(adj, disc, low, vis, isAP, u, parent);
 
 		for (int u = 0; u < V; u++)
 			if (isAP[u] == true)
@@ -128,33 +129,29 @@ class Graph {
 		System.out.println();
 	}
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 
 		// Creating first example graph
-		 Scanner sc=new Scanner(System.in);
-        System.out.println("enter number of vertices ");
-        int V=sc.nextInt();
-     	System.out.println("enter number of  edges");
-        int e=sc.nextInt();
-        Graph g = new Graph();
-		ArrayList<ArrayList<Integer> > adj1 = new ArrayList<ArrayList<Integer> >(V);
+		Scanner sc = new Scanner(System.in);
+		System.out.println("enter number of vertices ");
+		int V = sc.nextInt();
+		System.out.println("enter number of  edges");
+		int e = sc.nextInt();
+		ArrayList<ArrayList<Integer>> adj = new ArrayList<ArrayList<Integer>>(V);
 
-		for (int i = 0; i < V; i++)
-        {
-			adj1.add(new ArrayList<Integer>());
-        }
-        System.out.println("enter edges");
-        for(int i=0;i<e;i++)
-        {
-            int end1=sc.nextInt();
-            int end2=sc.nextInt();
-            g.addEdge(adj1,end1,end2);
-        }
-		
+		for (int i = 0; i < V; i++) {
+			adj.add(new ArrayList<Integer>());
+		}
+		System.out.println("enter edges");
+		for (int i = 0; i < e; i++) {
+			int end1 = sc.nextInt();
+			int end2 = sc.nextInt();
+			addEdge(adj, end1, end2);
+		}
+
 		System.out.println("Articulation points in first graph");
-		AP(adj1, V);
+		AP(adj, V);
+		sc.close();
 
-		
 	}
 }

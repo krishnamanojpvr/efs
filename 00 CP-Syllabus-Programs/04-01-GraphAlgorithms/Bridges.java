@@ -111,130 +111,71 @@ Bridges in graph
 1 6
 */
 
-import java.io.*;
 import java.util.*;
-import java.util.LinkedList;
 
-// This class represents a undirected graph using adjacency list // representation
-class Test
-{
-    private int V;   // No. of vertices
+public class Bridges {
+    private static int time = 0;
 
-    // Array  of lists for Adjacency List Representation
-    private LinkedList<Integer> adj[];
-    int time = 0;
-    static final int NIL = -1;
+    public static List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+        int[] disc = new int[n];
+        int[] low = new int[n];
+        boolean[] vis = new boolean[n];
 
-    // Constructor
-    @SuppressWarnings("unchecked")
-    Test(int v)
-    {
-        V = v;
-        adj = new LinkedList[v];
-        for (int i=0; i<v; ++i)
-            adj[i] = new LinkedList();
+        for (int i = 0; i < n; i++)
+            adj.put(i, new ArrayList<>());
+        
+        for (List<Integer> l : connections) {
+            adj.get(l.get(0)).add(l.get(1));
+            adj.get(l.get(1)).add(l.get(0));
+        }
+
+        List<List<Integer>> res = new ArrayList<>();
+        dfs(adj, disc, low, vis, res, 0, -1);
+        return res;
     }
 
-    // Function to add an edge into the graph
-    void addEdge(int v, int w)
-    {
-        adj[v].add(w);  // Add w to v's list.
-        adj[w].add(v);    //Add v to w's list
-    }
+    public static void dfs(Map<Integer, List<Integer>> adj, int[] disc, int[] low, boolean[] vis, List<List<Integer>> res, int node, int parent) {
+        vis[node] = true;
+        disc[node] = low[node] = ++time;
 
-    // A recursive function that finds and prints bridges     // using DFS traversal
-    // u --> The vertex to be visited next
-    // visited[] --> keeps track of visited vertices
-    // disc[] --> Stores discovery times of visited vertices
-    // parent[] --> Stores parent vertices in DFS tree
-    
-    void bridgeUtil(int u, boolean visited[], int disc[],
-                    int low[], int parent[])
-    {
+        for (Integer neigh : adj.get(node)) {
+            if (neigh == parent) continue;
 
-        // Mark the current node as visited
-        visited[u] = true;
+            if (!vis[neigh]) {
+                dfs(adj, disc, low, vis, res, neigh, node);
+                low[node] = Math.min(low[node], low[neigh]);
 
-        // Initialize discovery time and low value
-        disc[u] = low[u] = ++time;
-
-        // Go through all vertices adjacent to this
-        Iterator<Integer> i = adj[u].iterator();
-        while (i.hasNext())
-        {
-            int v = i.next();  // v is current adjacent of u
-
-            // If v is not visited yet, then make it a child
-            // of u in DFS tree and recur for it.
-            // If v is not visited yet, then recur for it
-            if (!visited[v])
-            {
-                parent[v] = u;
-                bridgeUtil(v, visited, disc, low, parent);
-
-                // Check if the subtree rooted with v has a
-                // connection to one of the ancestors of u
-                low[u]  = Math.min(low[u], low[v]);
-
-                // If the lowest vertex reachable from subtree
-                // under v is below u in DFS tree, then u-v is
-                // a bridge
-                if (low[v] > disc[u])
-                    System.out.println(u+" "+v);
+                if (low[neigh] > disc[node]) {
+                    res.add(Arrays.asList(node, neigh));
+                }
+            } else {
+                low[node] = Math.min(low[node], disc[neigh]);
             }
-
-            // Update low value of u for parent function calls.
-            else if (v != parent[u])
-                low[u]  = Math.min(low[u], disc[v]);
         }
     }
 
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("enter number of vertices");
+        int v = sc.nextInt();
 
-    // DFS based function to find all bridges. It uses recursive
-    // function bridgeUtil()
-    void bridge()
-    {
-        // Mark all the vertices as not visited
-        boolean visited[] = new boolean[V];
-        int disc[] = new int[V];
-        int low[] = new int[V];
-        int parent[] = new int[V];
+        System.out.println("enter number of  edges");
+        int e = sc.nextInt();
 
-
-        // Initialize parent and visited, and ap(articulation point)
-        // arrays
-        for (int i = 0; i < V; i++)
-        {
-            parent[i] = NIL;
-            visited[i] = false;
-        }
-
-        // Call the recursive helper function to find Bridges  in DFS tree rooted with vertex 'i'
-        for (int i = 0; i < V; i++)
-            if (visited[i] == false)
-                bridgeUtil(i, visited, disc, low, parent);
-    }
-
-    public static void main(String args[])
-    {
-        // Create graphs given in above diagrams
-        
-        Scanner sc=new Scanner(System.in);
-        System.out.println("enter number of vertices ");
-        int v=sc.nextInt();
-     	System.out.println("enter number of  edges");
-        int e=sc.nextInt();
-        
-       Test g = new Test(v);
         System.out.println("enter edges");
-        for(int i=0;i<e;i++)
-        {
-            int end1=sc.nextInt();
-            int end2=sc.nextInt();
-            g.addEdge(end1,end2);
+        List<List<Integer>> connections = new ArrayList<>();
+        for (int i = 0; i < e; i++) {
+            int u = sc.nextInt();
+            int vtx = sc.nextInt();
+            connections.add(Arrays.asList(u, vtx));
         }
-          System.out.println("Bridges in graph");     
-        g.bridge();
-       
+
+        System.out.println("Bridges in graph");
+        List<List<Integer>> bridges = criticalConnections(v, connections);
+        for (List<Integer> bridge : bridges) {
+            System.out.println(bridge.get(0) + " " + bridge.get(1));
+        }
+        sc.close();
     }
 }
