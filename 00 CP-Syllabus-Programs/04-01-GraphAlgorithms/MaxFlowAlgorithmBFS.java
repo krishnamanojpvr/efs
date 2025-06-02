@@ -83,16 +83,17 @@ import java.util.LinkedList;
 class Test {
 	static int V; // Number of vertices in graph
 
-	/* Returns true if there is a path from source 's' to
-	sink 't' in residual graph. Also fills parent[] to
-	store the path */
-	boolean bfs(int rGraph[][], int s, int t, int parent[])
-	{
-		
+	/*
+	 * Returns true if there is a path from source 's' to
+	 * sink 't' in residual graph. Also fills parent[] to
+	 * store the path
+	 */
+	boolean bfs(int rGraph[][], int s, int t, int parent[]) {
+
 		boolean visited[] = new boolean[V];
 		for (int i = 0; i < V; ++i)
 			visited[i] = false;
-		LinkedList<Integer> queue= new LinkedList<Integer>();
+		LinkedList<Integer> queue = new LinkedList<Integer>();
 		queue.add(s);
 		visited[s] = true;
 		parent[s] = -1;
@@ -101,11 +102,9 @@ class Test {
 		while (queue.size() != 0) {
 			int u = queue.poll();
 
-			for (int v = 0; v < V; v++)
-			 {
-			if (visited[v] == false	&& rGraph[u][v] > 0)
-			 {
-				
+			for (int v = 0; v < V; v++) {
+				if (visited[v] == false && rGraph[u][v] > 0) {
+
 					if (v == t) {
 						parent[v] = u;
 						return true;
@@ -124,8 +123,7 @@ class Test {
 
 	// Returns the maximum flow from s to t in the given
 	// graph
-	int fordFulkerson(int graph[][], int s, int t)
-	{
+	int fordFulkerson(int graph[][], int s, int t) {
 		int u, v;
 
 		// Create a residual graph and fill the residual
@@ -156,8 +154,7 @@ class Test {
 			int path_flow = Integer.MAX_VALUE;
 			for (v = t; v != s; v = parent[v]) {
 				u = parent[v];
-				path_flow
-					= Math.min(path_flow, rGraph[u][v]);
+				path_flow = Math.min(path_flow, rGraph[u][v]);
 			}
 
 			// update residual capacities of the edges and
@@ -177,15 +174,14 @@ class Test {
 	}
 
 	// Driver program to test above functions
-	public static void main(String[] args) throws java.lang.Exception
-	{
-		Scanner sc=new Scanner(System.in);
-		V=sc.nextInt();
+	public static void main(String[] args) throws java.lang.Exception {
+		Scanner sc = new Scanner(System.in);
+		V = sc.nextInt();
 		// Let us create a graph shown in the above example
 		int graph[][] = new int[V][V];
-		for(int i=0;i<V;i++)
-		for(int j=0;j<V;j++)
-			graph[i][j]=sc.nextInt();
+		for (int i = 0; i < V; i++)
+			for (int j = 0; j < V; j++)
+				graph[i][j] = sc.nextInt();
 		int s = sc.nextInt();
 		int t = sc.nextInt();
 		System.out.println(new Test().fordFulkerson(graph, s, t));
