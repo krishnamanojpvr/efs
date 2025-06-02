@@ -105,13 +105,11 @@ class Test {
 			for (int v = 0; v < V; v++) {
 				if (visited[v] == false && rGraph[u][v] > 0) {
 
-					if (v == t) {
-						parent[v] = u;
-						return true;
-					}
 					queue.add(v);
 					parent[v] = u;
 					visited[v] = true;
+					if (v == t) return true;
+					}
 				}
 			}
 		}
