@@ -1,3 +1,12 @@
-## KMIT 3-2 (2024-2025)
-- Competitive Programming (CP) - Syllabus Programs in JAVA, Both Theory and Lab
-- Finishing School - ELITE (Codes in JAVA)
+# KMIT 3-2 (2024-2025)
+
+## Contents
+- **Competitive Programming (CP)**
+  - Syllabus Programs in JAVA (Theory & Lab)
+- **Finishing School - ELITE**
+  - Codes in JAVA
+
+---
+
+### Note
+All the Quizzes will be in the `00 Quizes` Folder.
