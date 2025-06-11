@@ -19,7 +19,6 @@
 // Return an integer representing the length of the longest common palindromic 
 // subsequence shared by both messages.
 
-
 // Sample Input: 
 // -------------
 // adfa
@@ -28,7 +27,6 @@
 // Sample Output:
 // --------------
 // 2
-
 
 // Sample Input-2:
 // ---------------
@@ -43,7 +41,6 @@
 // ------------
 // The longest palindromic subsequence common to both is "aba" with length 3.
 
-
 import java.util.Scanner;
 
 public class LCSP {
@@ -55,14 +52,14 @@ public class LCSP {
         cin.close();
     }
 
-    static int find(String one, String two) {
+    public static int find(String one, String two) {
         String lcs = getLCS(one, two);
         String palin = getLCS(lcs, new StringBuilder(lcs).reverse().toString());
         return palin.length();
 
     }
 
-    static String getLCS(String s1, String s2) {
+    public static String getLCS(String s1, String s2) {
         // System.out.println(s1+" "+s2);
         int n = s1.length();
         int m = s2.length();
@@ -92,23 +89,24 @@ public class LCSP {
         // System.out.println(lcs.reverse());
         return lcs.reverse().toString();
     }
-}
 
-// public static int find(String s){
-// int len = s.length();
-// int dp[][] = new int[len][len];
-// for(int i=0;i<len;i++){
-// dp[i][i] = 1;
-// }
-// for(int k=2;k<=len;k++){
-// for(int i=0;i<len;i++){
-// int j = i+k-1;
-// if(s.charAt(i)==s.charAt(j)){
-// dp[i][j] = k==2? 2 : dp[i+1][j-1] + 2;
-// }else{
-// dp[i][j] = Math.max(dp[i+1][j],dp[i][j+1]);
-// }
-// }
-// }
-// return dp[0][len];
-// }
+    public static int findLPSdp(String s) {
+        int n = s.length();
+        int dp[][] = new int[n][n];
+        for (int i = 0; i < n; i++)
+            dp[i][i] = 1;
+        int max = 1;
+        for (int len = 2; len <= n; len++) {
+            for (int i = 0; i <= n - len; i++) {
+                int j = i + len - 1;
+                if (s.charAt(i) == s.charAt(j)) {
+                    dp[i][j] = len == 2 ? 2 : dp[i + 1][j - 1] + 2;
+                } else {
+                    dp[i][j] = Math.max(dp[i][j - 1], dp[i + 1][j]);
+                }
+                max = Math.max(dp[i][j], max);
+            }
+        }
+        return max;
+    }
+}
