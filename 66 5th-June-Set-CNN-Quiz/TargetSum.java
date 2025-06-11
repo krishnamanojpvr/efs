@@ -53,21 +53,7 @@ public class TargetSum{
             arr[i] = Integer.parseInt(s[i]);
             al.add(arr[i]);
         }
-        // int count[] = {Integer.MAX_VALUE};
-        // Collections.sort(al,Collections.reverseOrder());
-        // bt(al,count,t,0,n,0,0);
-        // int dp[][] = new int[n+1][target+1];
-        // for(int i=1;i<=n;i++){
-        //     for(int j=1;j<=target;j++){
-        //         if(){
-                    
-        //         }else{
-                    
-        //         }
-        //     }
-        // }
-        // // System.out.println(count[0]==Integer.MAX_VALUE?-1:count[0]);
-        // System.out.println(dp[n][target]);
+        
         
         // int[] dp = new int[t + 1];
         // Arrays.fill(dp, Integer.MAX_VALUE);
