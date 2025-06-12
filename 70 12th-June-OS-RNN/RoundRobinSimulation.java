@@ -52,3 +52,104 @@
 // Average Waiting Time: 3.67
 // Average Turnaround Time: 7.67
 
+
+import java.util.*;
+class Job {
+    String id;
+    int arrivalTime;
+    int burstTime;
+    String userType;
+    int remainingTime;
+    int completionTime;
+    int firstSeenTime = -1;
+    Job(String id, int arrivalTime, int burstTime, String userType) {
+        this.id = id;
+        this.arrivalTime = arrivalTime;
+        this.burstTime = burstTime;
+        this.remainingTime = burstTime;
+        this.userType = userType;
+    }
+}
+
+public class RoundRobinSimulation{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int numJobs = sc.nextInt();
+        List<Job> allJobs = new ArrayList<>();
+
+        for (int i = 0; i < numJobs; i++) {
+            String id = sc.next();
+            int arrival = sc.nextInt();
+            int burst = sc.nextInt();
+            String userType = sc.next();
+            allJobs.add(new Job(id, arrival, burst, userType));
+        }
+
+        int time = sc.nextInt();
+
+        solve(allJobs, time);
+        sc.close();
+    }
+
+    static void solve(List<Job> allJobs, int quantum) {
+        int currentTime = 0;
+        int totalJobs = allJobs.size();
+        List<Job> completedJobs = new ArrayList<>();
+        Queue<Job> queue = new LinkedList<>();
+
+        allJobs.sort(Comparator.comparingInt(j -> j.arrivalTime));
+        Set<Job> arrived = new HashSet<>();
+        
+        while (completedJobs.size() < totalJobs) {
+            for (Job job : allJobs) {
+                if (job.arrivalTime <= currentTime && !arrived.contains(job)) {
+                    queue.offer(job);
+                    arrived.add(job);
+                }
+            }
+            List<Job> tempList = new ArrayList<>();
+            while (!queue.isEmpty()) tempList.add(queue.poll());
+            tempList.sort((a, b) -> {
+                if (a.userType.equals(b.userType)) return 0;
+                return a.userType.equals("Staff") ? -1 : 1;
+            });
+
+            queue.addAll(tempList);
+
+            if (queue.isEmpty()) {
+                currentTime++;
+                continue;
+            }
+
+            Job current = queue.poll();
+
+            int timeToRun = Math.min(current.remainingTime, quantum);
+            currentTime += timeToRun;
+            current.remainingTime -= timeToRun;
+            for (Job job : allJobs) {
+                if (job.arrivalTime > currentTime - timeToRun && job.arrivalTime <= currentTime && !arrived.contains(job)) {
+                    queue.offer(job);
+                    arrived.add(job);
+                }
+            }
+
+            if (current.remainingTime == 0) {
+                current.completionTime = currentTime;
+                completedJobs.add(current);
+            } else {
+                queue.offer(current);
+            }
+        }
+        double totalWT = 0, totalTAT = 0;
+        System.out.println("JobID  WaitingTime  TurnaroundTime");
+        for (Job job : allJobs) {
+            int tat = job.completionTime - job.arrivalTime;
+            int wt = tat - job.burstTime;
+            totalWT += wt;
+            totalTAT += tat;
+            System.out.printf("%-6s %-13d %d\n", job.id, wt, tat);
+        }
+        System.out.printf("Average Waiting Time: %.2f\n", totalWT / totalJobs);
+        System.out.printf("Average Turnaround Time: %.2f\n", totalTAT / totalJobs);
+    }
+}
