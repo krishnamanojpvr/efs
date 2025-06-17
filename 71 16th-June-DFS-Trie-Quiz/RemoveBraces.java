@@ -41,7 +41,7 @@ class TrieNode {
     boolean isEndOfWord;
 
     TrieNode() {
-        this.children = new TrieNode[101];
+        this.children = new TrieNode[10];
         isEndOfWord = false;
     }
 
@@ -66,65 +66,41 @@ class Trie {
         temp.isEndOfWord = true;
     }
 
-    public boolean find(TrieNode root, StringBuilder sb) {
-        if (root.children == null)
-            return false;
+    public boolean find(TrieNode root,StringBuilder sb) {
+        if(root.children == null) return false;
         boolean flag = false;
         int len = sb.length();
-        for (int i = 100; i >= 0; i--) {
-            if (root.children[i] != null) {
-                sb.append(i + "-");
-                flag = find(root.children[i], sb);
+        for(int i=9;i>=0;i--){
+            if(root.children[i]!=null){
+                sb.append(i+"-");
+                flag = find(root.children[i],sb);
                 break;
             }
         }
-        if (!flag && root.isEndOfWord) {
+        if(!flag && root.isEndOfWord){
             sb.setLength(len);
             return true;
-        } else {
-            if (sb.charAt(len) == '0')
-                return false;
+        }
+        else{
+            if(sb.charAt(len)=='0') return false;
             return true;
         }
 
     }
 }
 
-public class LatestPatch {
-
+public class RemoveBraces {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String[] input = sc.nextLine().split(" ");
         Trie t = new Trie();
-        for (String s : input) {
+        for(String s : input){
             String arr[] = s.split("-");
             t.insert(arr);
         }
         StringBuilder sb = new StringBuilder();
-        t.find(t.root, sb);
-        System.out.println(sb.toString().substring(0, sb.length() - 1));
+        t.find(t.root,sb);
+        System.out.println(sb.substring(0,sb.length()-1));
         sc.close();
     }
-    // public static String getRecentRelease(String[] arr) {
-    // Arrays.sort(arr);
-    // Set<String> set = new HashSet<>();
-    // for (String i : arr) {
-    // set.add(i);
-    // }
-    // String res = arr[arr.length - 1];
-    // int len = res.length() - 1;
-    // StringBuilder sb = new StringBuilder(res);
-    // while (len >= 0) {
-    // if (sb.charAt(len) == '0') {
-    // sb.deleteCharAt(len--);
-    // sb.deleteCharAt(len--);
-    // } else {
-    // break;
-    // }
-    // }
-    // if (set.contains(sb.toString())) {
-    // return sb.toString();
-    // }
-    // return res;
-    // }
 }
