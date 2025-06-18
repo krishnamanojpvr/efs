@@ -64,7 +64,7 @@
 // 10000
 // 2
 
-// Sample Output:
+// Sample OutMain1
 // --------------
 // Customer: David, Score: 100.0, Risk Level: Low                                                                                                        
 // Customer: Eva, Score: 36.0, Risk Level: High                                                                                                          
