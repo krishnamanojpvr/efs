@@ -101,6 +101,6 @@ public class BillBoard{
             ind = 0;
         }
         System.out.println(count);
-        sc.close()
+        sc.close();
     }
 }
