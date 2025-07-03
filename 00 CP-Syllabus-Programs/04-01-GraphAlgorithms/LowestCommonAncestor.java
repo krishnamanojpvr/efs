@@ -94,30 +94,30 @@ input =3 6 4 7 8 -1 -1 2 9 -1 -1 18 -1 -1 -1 16 -1 5
 16 8
 output =6
 
-*/
+ */
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Scanner;
 
+public class LowestCommonAncestor {
 
-public class  LowestCommonAncestor
-{
-    public static void main(String[] args) 
-    {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        
-        String[] arr= sc.nextLine().split(" ");
+
+        String[] arr = sc.nextLine().split(" ");
         String[] persons = sc.nextLine().split(" ");
-        
+
         List<Integer> v = new ArrayList<>();
 
-        int n=arr.length;
+        int n = arr.length;
 
-
-        for (int i = 0; i < n; i++) 
-        {
+        for (int i = 0; i < n; i++) {
             v.add(Integer.parseInt(arr[i]));
         }
-        
+
         Node root = new Node(v.get(0));
 
         Node P1 = new Node(Integer.parseInt(persons[0]));
@@ -125,43 +125,40 @@ public class  LowestCommonAncestor
         Node P2 = new Node(Integer.parseInt(persons[1]));
 
         Queue<Node> q = new LinkedList<>();
-        
+
         q.add(root);
-        
+
         int j = 1;
-        while (j < n && !q.isEmpty())
-         {
+        while (j < n && !q.isEmpty()) {
             Node temp = q.poll();
-            if (v.get(j) != -1)
-             {
+            if (v.get(j) != -1) {
                 temp.left = new Node(v.get(j));
                 q.add(temp.left);
             }
-        
+
             j++;
-            
-            if (j < n && v.get(j) != -1)
-              {
+
+            if (j < n && v.get(j) != -1) {
                 temp.right = new Node(v.get(j));
                 q.add(temp.right);
             }
-            
+
             j++;
         }
 
-        Node res=new Solution().lowestCommonAscendant(root, P1, P2);
+        Node res = new Solution().lowestCommonAscendant(root, P1, P2);
         System.out.println(res.data);
         sc.close();
-  }
+    }
 }
 
-class Node 
-{
+class Node {
+
     public int data;
     public Node left;
     public Node right;
-    public Node(int value)
- {
+
+    public Node(int value) {
         data = value;
         left = null;
         right = null;
@@ -169,11 +166,12 @@ class Node
 }
 
 class Solution {
-    Node lowestCommonAscendant(Node root,Node P1, Node P2){
-        if (root == null || root.data == P1.data || 
-           root.data == P2.data)
-	
-	 return root;
+
+    Node lowestCommonAscendant(Node root, Node P1, Node P2) {
+        if (root == null || root.data == P1.data
+                || root.data == P2.data) {
+            return root;
+        }
         Node left = lowestCommonAscendant(root.left, P1, P2);
 
         Node right = lowestCommonAscendant(root.right, P1, P2);
@@ -181,6 +179,3 @@ class Solution {
         return left == null ? right : right == null ? left : root;
     }
 }
-
-
-

@@ -94,140 +94,95 @@ Approach:
         -> Higher frequency
 
         -> If frequency is same → lexicographically smaller first
-*/
+ */
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Scanner;
 
-import java.util.*;
+class Node {
 
-class TrieNode 
-{
-    TrieNode[] children;
-    boolean isEndOfWord;
-    int frequency;  // store frequency at end node
-    String word;    // store the word itself at end node for reference
+    public char c;
+    public boolean isWord;
+    public int count;
+    public Node[] children;
+    public String str;
 
-    TrieNode() 
-    {
-        children = new TrieNode[26];
-        isEndOfWord = false;
-        frequency = 0;
-        word = null;
+    public Node(char c) {
+        this.c = c;
+        this.isWord = false;
+        this.count = 0;
+        children = new Node[26];
+        str = "";
     }
 }
 
-class Trie 
-{
-    TrieNode root;
+class Trie {
 
-    Trie() 
-    {
-        root = new TrieNode();
+    public Node root;
+
+    public Trie() {
+        this.root = new Node('\0');
     }
 
-    public void insert(String word, int freq) 
-    {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) 
-        {
-            int idx = c - 'a';
-            if (node.children[idx] == null)
-             {
-                node.children[idx] = new TrieNode();
+    public void insert(String word) {
+        Node curr = root;
+        for (int i = 0; i < word.length(); i++) {
+            char c = word.charAt(i);
+            if (curr.children[c - 'a'] == null) {
+                curr.children[c - 'a'] = new Node(c);
             }
-            node = node.children[idx];
+            curr = curr.children[c - 'a'];
         }
-        node.isEndOfWord = true;
-        node.frequency = freq;
-        node.word = word;
+        curr.isWord = true;
+        curr.count += 1;
+        curr.str = word;
+
     }
 
-    public void collectWords(TrieNode node, PriorityQueue<StringFrequency> pq, int k) 
-    {
-        if (node == null) return;
-
-        if (node.isEndOfWord)
-         {
-            pq.offer(new StringFrequency(node.word, node.frequency));
-            if (pq.size() > k) {
-                pq.poll(); // remove lowest priority element
-            }
+    public void traverse(Node root, PriorityQueue<Node> pq) {
+        if (root.isWord == true) {
+            pq.offer(root);
         }
-
-        for (TrieNode child : node.children)
-         {
-            if (child != null)
-             {
-                collectWords(child, pq, k);
+        for (int i = 0; i < 26; i++) {
+            if (root.children[i] != null) {
+                traverse(root.children[i], pq);
             }
         }
     }
 }
 
-class StringFrequency 
-{
-    String word;
-    int freq;
+public class TopKFrequentWords {
 
-    StringFrequency(String word, int freq)
-     {
-        this.word = word;
-        this.freq = freq;
-    }
-}
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String line1 = sc.nextLine();
+        int p = sc.nextInt();
+        String[] words = line1.split(",");
+        Trie t = new Trie();
+        PriorityQueue<Node> pq = new PriorityQueue<>(
+                (a, b) -> {
+                    if (a.count != b.count) {
+                        return b.count - a.count;
+                    }
 
-// Custom comparator for min-heap
-class WordComparator implements Comparator<StringFrequency>
- {
-    public int compare(StringFrequency a, StringFrequency b)
-     {
-        if (a.freq == b.freq) 
-        {
-            return b.word.compareTo(a.word); // reverse for min-heap
+                    return a.str.compareTo(b.str);
+                }
+        );
+
+        for(int i = 0; i < words.length; i++) {
+            t.insert(words[i]);
         }
-        return Integer.compare(a.freq, b.freq); // min-heap based on frequency
-    }
-}
+        t.traverse(t.root, pq);
 
-public class TopKFrequentWords
- {
-    public static List<String> topKFrequent(String[] words, int k)
-     {
-        // Step 1: Count frequency
-        Map<String, Integer> freqMap = new HashMap<>();
-        for (String word : words) {
-            freqMap.put(word, freqMap.getOrDefault(word, 0) + 1);
+        List<String> res = new ArrayList<>();
+        int k = 0;
+        while (k++ < p) {
+            res.add(pq.poll().str);
         }
 
-        // Step 2: Build Trie
-        Trie trie = new Trie();
-        for (Map.Entry<String, Integer> entry : freqMap.entrySet())
-         {
-            trie.insert(entry.getKey(), entry.getValue());
-        }
-
-        // Step 3: Use PriorityQueue to find top k
-        PriorityQueue<StringFrequency> pq = new PriorityQueue<>(new WordComparator());
-
-        // Step 4: DFS to collect words into priority queue
-        trie.collectWords(trie.root, pq, k);
-
-        // Step 5: Build result list from heap (reverse order)
-        List<String> result = new ArrayList<>();
-        while (!pq.isEmpty()) {
-            result.add(pq.poll().word);
-        }
-        Collections.reverse(result); // since min-heap gives smallest first
-
-        return result;
-    }
-
-    public static void main(String[] args) 
-    {
-        Scanner sc=new Scanner(System.in);
-		String dict[]=sc.nextLine().split(",");
-        int k=sc.nextInt();
-		new TopKFrequentWords();
-        System.out.println(TopKFrequentWords.topKFrequent(dict,k));
+        System.out.println(res);
         sc.close();
     }
 }
