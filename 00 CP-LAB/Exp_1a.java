@@ -26,22 +26,41 @@ public class Exp_1a {
     public static int subarraysWithKDistinct(int arr[],int k){
         return countAtMost(arr,k) - countAtMost(arr,k-1);
     }
-    public static int countAtMost(int arr[], int k){
-        int l=0, res=0;
-        HashMap<Integer,Integer> map = new HashMap<>();
-        for(int r=0;r<arr.length;r++){
-            if(map.getOrDefault(arr[r],0)==0) k--;
-            map.put(arr[r],map.getOrDefault(arr[r],0)+1);
-            while(k<0){
-                map.put(arr[l],map.get(arr[l])-1);
-                if(map.get(arr[l])==0)k++;
+
+    public static int countAtMost(int[] nums,int k){
+        int n = nums.length;
+        Map<Integer,Integer> map = new HashMap<>();
+        int l = 0;
+        int res = 0;
+        for(int r=0;r<n;r++){
+            map.put(nums[r],map.getOrDefault(nums[r],0)+1);
+            while(map.size()>k){
+                map.put(nums[l],map.get(nums[l])-1);
+                if(map.get(nums[l])==0){
+                    map.remove(nums[l]);
+                }
                 l++;
             }
-            res+=r-l+1;
+            res += r-l+1;
         }
         return res;
-
     }
+    // public static int countAtMost(int arr[], int k){
+    //     int l=0, res=0;
+    //     HashMap<Integer,Integer> map = new HashMap<>();
+    //     for(int r=0;r<arr.length;r++){
+    //         if(map.getOrDefault(arr[r],0)==0) k--;
+    //         map.put(arr[r],map.getOrDefault(arr[r],0)+1);
+    //         while(k<0){
+    //             map.put(arr[l],map.get(arr[l])-1);
+    //             if(map.get(arr[l])==0)k++;
+    //             l++;
+    //         }
+    //         res+=r-l+1;
+    //     }
+    //     return res;
+
+    // }
     public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
