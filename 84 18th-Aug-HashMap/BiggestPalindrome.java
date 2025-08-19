@@ -56,26 +56,26 @@ import java.util.Map;
 import java.util.Scanner;
 public class BiggestPalindrome{
     public static void main(String args[]){
-        Scanner sc = new Scanner(System.in);
-        String arr[] = sc.nextLine().split(" ");
-        Map<String,Integer> map = new HashMap<>();
-        int res = 0;
-        for(String s : arr){
-            StringBuilder sb = new StringBuilder(s).reverse();
-            if(map.getOrDefault(sb.toString(),0)>0){
-                res+=4;
-                map.put(sb.toString(),map.get(sb.toString())-1);
-            }else{
-                map.put(s,map.getOrDefault(s,0)+1);
+        try (Scanner sc = new Scanner(System.in)) {
+            String arr[] = sc.nextLine().split(" ");
+            Map<String,Integer> map = new HashMap<>();
+            int res = 0;
+            for(String s : arr){
+                StringBuilder sb = new StringBuilder(s).reverse();
+                if(map.getOrDefault(sb.toString(),0)>0){
+                    res+=4;
+                    map.put(sb.toString(),map.get(sb.toString())-1);
+                }else{
+                    map.put(s,map.getOrDefault(s,0)+1);
+                }
             }
-        }
-        for(String s  : map.keySet()){
-            if(s.charAt(0)==s.charAt(1)){
-                res+=2;
-                break;
+            for(String s  : map.keySet()){
+                if(s.charAt(0)==s.charAt(1)){
+                    res+=2;
+                    break;
+                }
             }
+            System.out.println(res);
         }
-        System.out.println(res);
-        sc.close()
     }
 }

@@ -1,0 +1,54 @@
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicLong;
+
+class Person extends Thread {
+    CyclicBarrier cb;
+    int id;
+
+    Person(CyclicBarrier cb, int id) {
+        this.id = id;
+        this.cb = cb;
+    }
+
+    @Override
+    public void run() {
+        for (int phase = 1; phase <= 3; phase++) {
+            solvePuzzle(phase);
+        }
+    }
+
+    public void solvePuzzle(int phase) {
+        try {
+            System.out.println("Person " + id + " is doing work " + phase);
+            Thread.sleep((int) (Math.random() * 2000)); // simulate work
+            cb.await(); // wait for others
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+public class SyncBarrierExample {
+    public static void main(String[] args) {
+        int people = 4;
+
+        AtomicLong startTime = new AtomicLong(System.currentTimeMillis());
+
+        CyclicBarrier cb = new CyclicBarrier(people, new Runnable() {
+            int phase = 0;
+
+            @Override
+            public void run() {
+                long now = System.currentTimeMillis();
+                long barrierTime = now - startTime.get();
+                System.out.println("===> Phase " + phase + " barrier reached, Barrier Time = " + barrierTime + " ms");
+                startTime.set(now); // reset for next phase
+                phase++;
+            }
+        });
+
+        for (int i = 1; i <= people; i++) {
+            new Person(cb, i).start();
+        }
+    }
+}
