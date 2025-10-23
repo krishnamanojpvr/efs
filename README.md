@@ -1,4 +1,4 @@
-# KMIT 3-2 (2024-2025)
+# Finishing School - Elite KMIT (3-2, 4-1) (2024-2025)
 
 ## Contents
 - **Competitive Programming (CP)**
