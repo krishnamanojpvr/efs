@@ -44,4 +44,27 @@ Sample Output-2:
 
 
 '''
+s = input()
+words = list(input().split())
+n = len(s)
+mask = [False]*n
 
+for word in words:
+    idx = s.find(word)
+    while idx!=-1:
+        for i in range(idx,idx+len(word)):
+            mask[i] = True
+        idx = s.find(word,idx+1)
+res = ""
+i=0
+while i<n:
+    if mask[i]==False:
+        res+=s[i]
+        i+=1
+    else:
+        res+="<i>"
+        while i<n and mask[i]==True:
+            res+=s[i]
+            i+=1
+        res+="</i>"    
+print(res)

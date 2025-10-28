@@ -57,3 +57,32 @@ After deleting 1 letter at index 3, "pqrqssss" becomes "pqrssss".
 '''
 
 
+def is_sub(org,sub,del_ind):
+    i,j=0,0
+    deleted = set(del_ind)
+    while i < len(org) and j<len(sub):
+        if i in deleted:
+            i+=1
+            continue
+        elif org[i]==sub[j]:
+            j+=1
+        i+=1
+    return j==len(sub)
+
+def bins(org,sub,arr):
+    low,high=0,len(arr)
+    r=0
+    while low<=high:
+        mid = (low+high)//2
+        if(is_sub(sub,org,arr[:mid])):
+            r = mid
+            low = mid + 1
+        else:
+            high = mid-1
+    return r
+
+sub,org = input().split()
+r = int(input())
+arr = list(map(int,input().split()))
+print(bins(org,sub,arr))
+

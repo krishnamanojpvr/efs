@@ -44,3 +44,17 @@ Sample Output-2:
 12
 
 '''
+
+hfence = list(map(int,input().split()))
+vfence = list(map(int,input().split()))
+
+hfence = [0]+hfence+[l]
+vfence = [0]+vfence+[w]
+
+hfence.sort()
+vfence.sort()
+
+maxh = max(hfence[i]-hfence[i-1] for i in range(1,hlen+2))
+maxv = max(vfence[i]-vfence[i-1] for i in range(1,vlen+2))
+
+print(maxh*maxv)
