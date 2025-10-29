@@ -67,7 +67,8 @@ while steps>0:
     if curr_state in seen:
         cycle_len = seen[curr_state] - steps
         steps%=cycle_len
-        if steps==0 break;
+        if steps==0:
+            break
     else:
         seen[curr_state] = steps
     steps-=1
