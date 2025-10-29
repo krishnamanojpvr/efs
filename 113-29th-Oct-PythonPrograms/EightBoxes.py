@@ -61,7 +61,16 @@ Sample Output-2:
 arr = list(map(int,input().split()))
 steps = int(input())
 
-for _ in range(steps):
+seen = {}
+while steps>0:
+    curr_state = tuple(arr)
+    if curr_state in seen:
+        cycle_len = seen[curr_state] - steps
+        steps%=cycle_len
+        if steps==0 break;
+    else:
+        seen[curr_state] = steps
+    steps-=1
     base = arr[:]
     newarr = [0]*8
     for j in range(1,7):
